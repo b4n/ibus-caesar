@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component>
+	<name>org.freedesktop.IBus.Caesar</name>
+	<description>Caesar code engine</description>
+	<exec>@EXEC_PREFIX@/ibus-caesar --ibus</exec>
+	<version>@VERSION@</version>
+	<author>Colomban Wendling &lt;lists.ban@herbesfolles.org&gt;</author>
+	<license>BSD</license>
+	<homepage></homepage>
+	<textdomain>ibus-caesar</textdomain>
+
+	<engines>
+		<engine>
+			<name>caesar</name>
+			<language></language>
+			<license>BSD</license>
+			<author>Colomban Wendling &lt;lists.ban@herbesfolles.org&gt;</author>
+			<icon>system-lock-screen-symbolic</icon>
+			<layout></layout>
+			<longname>Caesar code</longname>
+			<description>Standard Caesar code</description>
+			<rank>0</rank>
+		</engine>
+	</engines>
+</component>
