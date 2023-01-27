@@ -1,0 +1,27 @@
+Source: ibus-caesar
+Section: utils
+Priority: optional
+Maintainer: Colomban Wendling <lists.ban@herbesfolles.org>
+Rules-Requires-Root: no
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-sequence-python3,
+Standards-Version: 4.6.2
+Homepage: https://github.com/b4n/ibus-caesar
+Vcs-Browser: https://github.com/b4n/ibus-caesar
+Vcs-Git: https://github.com/b4n/ibus-caesar.git
+
+Package: ibus-caesar
+Architecture: all
+Depends:
+ ${misc:Depends},
+ ${python3:Depends},
+ gir1.2-glib-2.0,
+ gir1.2-ibus-1.0,
+ python3-xlib | gir1.2-gtk-3.0,
+Description: Caesar cipher input engine for IBus
+ IBus Caesar is an IBus IM engine for ciphering keyboard input according to
+ a Caesar cipher scheme.
+ .
+ This input method is not useful but as a toy, you probably do not want to
+ use it in the general case.
