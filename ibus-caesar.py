@@ -49,6 +49,8 @@ class CaesarEngine(IBus.Engine):
     __gtype_name__ = 'CaesarEngine'
 
     shift = 3
+    enable_keyboard = True
+    enable_toggle = True
 
     def __init__(self):
         debug(3, "Initializing %s...", self.__class__)
@@ -83,13 +85,15 @@ class CaesarEngine(IBus.Engine):
                      | IBus.ModifierType.SUPER_MASK
                      | IBus.ModifierType.RELEASE_MASK)
 
-        if (state & modifiers & ~IBus.ModifierType.SHIFT_MASK) == 0:
+        if (self.enable_keyboard and
+            (state & modifiers & ~IBus.ModifierType.SHIFT_MASK) == 0):
             c = chr(keysym)
             if self._encodable(c):
                 debug(1, "encrypting character: %s", c)
                 self.commit_text(IBus.Text.new_from_string(self._encode(c, self.shift)))
                 return True
-        elif (chr(keysym).lower() == 'e' and
+        elif (self.enable_toggle and
+              chr(keysym).lower() == 'e' and
               (state & modifiers & ~IBus.ModifierType.SHIFT_MASK) == IBus.ModifierType.CONTROL_MASK):
             text, cursor, anchor = self.get_surrounding_text()
             debug(2, "surrounding text is '%s'", text.get_text())
@@ -177,12 +181,22 @@ def main():
     parser.add_argument('-D', '--debug', help='enable debugging (repeat '
                                               'option for more verbosity).',
                         action='count', default=0)
+    features = parser.add_mutually_exclusive_group()
+    features.add_argument('-K', '--no-cipher-keyboard',
+                          help='Do not cipher the keyboard inputs',
+                          action='store_true', default=False)
+    features.add_argument('-T', '--no-cipher-toggle',
+                          help='Do not allow ciphering or deciphering existing text',
+                          action='store_true', default=False)
 
     args = parser.parse_args()
 
     DEBUG_LEVEL = args.debug
     if DEBUG_LEVEL > 0:
         logging.basicConfig(level=logging.DEBUG)
+
+    CaesarEngine.enable_keyboard = not args.no_cipher_keyboard
+    CaesarEngine.enable_toggle = not args.no_cipher_toggle
 
     IBus.init()
     app = CaesarEngineApp(args.ibus, args.set_engine)
