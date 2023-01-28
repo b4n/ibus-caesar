@@ -108,6 +108,7 @@ class CaesarEngine(IBus.Engine):
             debug(1, "encrypted text is '%s'", es)
 
             if cursor == anchor:
+                debug(2, "deleting %s characters at %s", text.get_length(), -cursor)
                 self.delete_surrounding_text(-cursor, text.get_length())
             self.commit_text(IBus.Text.new_from_string(es))
 
